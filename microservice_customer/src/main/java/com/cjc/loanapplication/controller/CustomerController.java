@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,8 +44,12 @@ public class CustomerController
 			return new ResponseEntity<Customer> (HttpStatus.BAD_REQUEST);
 		}	
 	}
+	
+	
+	
+	
 	@PatchMapping("/updateStatusByremark/{remark}/{customerId}")
-	public ResponseEntity<Customer> updatestatus(@PathVariable String remark,@PathVariable Integer customerId )
+	public ResponseEntity<Customer> updatestatus(@PathVariable String remark,@PathVariable Integer customerId,@RequestBody Customer customer )
 	{
 		Customer c=ci.updatestatus(remark,customerId);
 		if(c!=null)
