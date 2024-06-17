@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerAccountDetails {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer accountId;
-	private String accountType;
-	private String accountHolderName;
-	private String accountStatus;
-	private Long accountNo;
-	private String bankName;
-	private String ifscCode;
+public class Enquiry {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Integer enquiryId;
+private String enquiryName;
+private Integer age;
+private String email;
+private String mobileNo;
+private String pancardNo;
+private String aadharNo;
+private String remark;  
+private Long cibilScore; 
 }

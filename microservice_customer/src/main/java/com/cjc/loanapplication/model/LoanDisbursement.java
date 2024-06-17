@@ -16,7 +16,7 @@ public class LoanDisbursement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer aggrementId;
-	private Long loanNumber;
+	private Integer loanNumber;
 	private String aggrementDate;
 	private String amountPayType;
 	private Double totalAmount;

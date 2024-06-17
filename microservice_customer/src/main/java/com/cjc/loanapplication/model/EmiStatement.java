@@ -1,5 +1,6 @@
 package com.cjc.loanapplication.model;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,14 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerAccountDetails {
+public class EmiStatement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer accountId;
-	private String accountType;
-	private String accountHolderName;
-	private String accountStatus;
-	private Long accountNo;
-	private String bankName;
-	private String ifscCode;
+	private Integer emiStatementId;
+	private Double amount;
+	private String date;
+	private String status;
 }
