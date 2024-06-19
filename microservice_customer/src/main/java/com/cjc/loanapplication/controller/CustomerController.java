@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cjc.loanapplication.model.Customer;
+import com.cjc.loanapplication.model.EmiStatement;
 import com.cjc.loanapplication.servicei.CustomerServicei;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,17 +49,34 @@ public class CustomerController
 	
 	
 	
+	
+	
+	
 	@PatchMapping("/updateStatusByremark/{remark}/{customerId}")
 	public ResponseEntity<Customer> updatestatus(@PathVariable String remark,@PathVariable Integer customerId,@RequestBody Customer customer )
 	{
 		Customer c=ci.updatestatus(remark,customerId);
 		if(c!=null)
 		{
-		
+			log.info("Customer Remark Updated sucessfully");
 		return new ResponseEntity<Customer>(c,HttpStatus.OK);
 		}
 		else {
+			log.error("Failed to update remark");
 			return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/payEmi/{customerId}")
+	public ResponseEntity<Customer>payEmi(@PathVariable Integer customerId){
+		Customer customer = ci.payEmi(customerId);
+		if(customer!=null) {
+			log.info("EMI PAY sucessfully");
+			return new ResponseEntity<Customer>(customer,HttpStatus.OK);
+		}
+		else {
+			log.error("Failed to pay EMI");
+			return new ResponseEntity<Customer>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
