@@ -79,5 +79,23 @@ public class CustomerController
 			return new ResponseEntity<Customer>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	
+	
+	
+	@GetMapping("/unPaidEmi/{customerId}")
+	public ResponseEntity<Customer>unPaidEmi(@PathVariable Integer customerId){
+		Customer customer = ci.unPaidEmi(customerId);
+		if(customer!=null) {
+			log.info("EMI unpaid sucessfully");
+			return new ResponseEntity<Customer>(customer,HttpStatus.OK);
+		}
+		else {
+			log.error("Failed to unpaid EMI");
+			return new ResponseEntity<Customer>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
 
 }

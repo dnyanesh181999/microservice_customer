@@ -2,6 +2,8 @@ package com.cjc.loanapplication.serviceimpl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +14,7 @@ import com.cjc.loanapplication.exceptions.InvalidEmployeeIdException;
 import com.cjc.loanapplication.exceptions.NoResourceFoundException;
 import com.cjc.loanapplication.model.Customer;
 import com.cjc.loanapplication.model.EmiStatement;
+import com.cjc.loanapplication.model.Ledger;
 import com.cjc.loanapplication.repository.CustomerRepository;
 import com.cjc.loanapplication.servicei.CustomerServicei;
 
@@ -104,6 +107,77 @@ public class CustomerServiceimpl implements CustomerServicei
 		}
 		
 	}
+
+	@Override
+	public Customer unPaidEmi(Integer customerId) {
+		Optional<Customer>opt=cr.findById(customerId);
+		if(opt.isPresent()) {
+			Customer cust =opt.get();
+			List<EmiStatement>list=cust.getLedger().getEmiStatement();
+			EmiStatement e = new EmiStatement();
+			e.setAmount(cust.getLedger().getMonthlyEmi());
+			e.setStatus("UNPAID");
+			LocalDate localDate = LocalDate.now();
+			 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		     String formattedDate = localDate.format(formatter);
+			e.setDate(formattedDate);
+			list.add(e);
+			cust.getLedger().setEmiStatement(list);
+			Customer c=cr.save(cust);
+			if(c!=null) {
+				return c;
+			}
+			else {
+				throw new NoResourceFoundException("Faild  ");
+
+			}
+			
+			}
+		else {
+			throw new NoResourceFoundException("Customer Not Found");
+		}
+			
+			
+	
+			
+			
+		
+		}
+
+	@Override
+	public List<Customer> findAllDefaultCustomer() {
+		ArrayList<Customer> result=new ArrayList<Customer>();
+		List<Customer>list = cr.findAll();
+		
+			for(int i=0;i<list.size();i++) {
+				Customer c=list.get(i);
+				List<EmiStatement>emi=c.getLedger().getEmiStatement();
+				int count =0;
+				for(int j=0;j<emi.size();j++) {
+					if(emi.get(j).getStatus().equals("UNPAID")) {
+						count++;
+					}
+				}
+				if(count>=2) {
+					result.add(c);
+				}
+			}
+			if(!result.isEmpty()) {
+				return result;
+			}
+			else {
+				throw new NoResourceFoundException("No Any Default customer Found");
+			}
+		
+		
+		
+		
+	}
+		
+		
+		
+		
+	}
 	
 
-}
+
